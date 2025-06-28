@@ -207,10 +207,26 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
             driver = webdriver.Chrome(options=chrome_options)
         except Exception as e2:
             print(f"Second Chrome initialization attempt failed: {str(e2)}")
-            # Last resort - try with explicit driver path
-            driver_path = "/usr/bin/chromedriver"
-            service = Service(executable_path=driver_path)
-            driver = webdriver.Chrome(service=service, options=chrome_options)
+            # Last resort - try with WebDriver Manager again with different options
+            from webdriver_manager.chrome import ChromeDriverManager
+            from webdriver_manager.core.utils import ChromeType
+            
+            print("Attempting to install ChromeDriver with WebDriver Manager...")
+            try:
+                # Try with explicit ChromeType
+                service = Service(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+                driver = webdriver.Chrome(service=service, options=chrome_options)
+            except Exception as e3:
+                print(f"Third Chrome initialization attempt failed: {str(e3)}")
+                # Final attempt - try with system ChromeDriver if available
+                for possible_path in ["/usr/bin/chromedriver", "/usr/local/bin/chromedriver"]:
+                    if os.path.exists(possible_path):
+                        print(f"Found ChromeDriver at {possible_path}")
+                        service = Service(executable_path=possible_path)
+                        driver = webdriver.Chrome(service=service, options=chrome_options)
+                        break
+                else:
+                    raise Exception("Could not find ChromeDriver in any location")
     wait = WebDriverWait(driver, 20)
     
     try:
@@ -2328,10 +2344,26 @@ def main():
             driver = webdriver.Chrome(options=options)
         except Exception as e2:
             print(f"Second Chrome initialization attempt failed: {str(e2)}")
-            # Last resort - try with explicit driver path
-            driver_path = "/usr/bin/chromedriver"
-            service = Service(executable_path=driver_path)
-            driver = webdriver.Chrome(service=service, options=options)
+            # Last resort - try with WebDriver Manager again with different options
+            from webdriver_manager.chrome import ChromeDriverManager
+            from webdriver_manager.core.utils import ChromeType
+            
+            print("Attempting to install ChromeDriver with WebDriver Manager...")
+            try:
+                # Try with explicit ChromeType
+                service = Service(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+                driver = webdriver.Chrome(service=service, options=options)
+            except Exception as e3:
+                print(f"Third Chrome initialization attempt failed: {str(e3)}")
+                # Final attempt - try with system ChromeDriver if available
+                for possible_path in ["/usr/bin/chromedriver", "/usr/local/bin/chromedriver"]:
+                    if os.path.exists(possible_path):
+                        print(f"Found ChromeDriver at {possible_path}")
+                        service = Service(executable_path=possible_path)
+                        driver = webdriver.Chrome(service=service, options=options)
+                        break
+                else:
+                    raise Exception("Could not find ChromeDriver in any location")
     wait = WebDriverWait(driver, 30)
     
     try:
