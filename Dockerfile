@@ -3,6 +3,7 @@ FROM python:3.9-slim
 # Install Chrome dependencies and cron
 RUN apt-get update && apt-get install -y \
     wget \
+    curl \
     gnupg \
     unzip \
     fonts-liberation \
@@ -26,11 +27,12 @@ RUN apt-get update && apt-get install -y \
     cron \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Chrome
+# Install Chrome and ChromeDriver
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list \
     && apt-get update \
-    && apt-get install -y google-chrome-stable \
+    && apt-get install -y google-chrome-stable chromium-driver \
+    && ln -s /usr/lib/chromium/chromedriver /usr/local/bin/chromedriver \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up working directory
@@ -50,9 +52,16 @@ RUN mkdir -p data
 ENV PYTHONUNBUFFERED=1
 ENV DISPLAY=:99
 
-# Copy the entrypoint script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Set up cron job to run at 7:58 PM IST (14:28 UTC)
+RUN echo "28 14 * * * cd /app && python /app/crawai_pds_selenium.py --shop-list-json /app/shop_list.json --output-json /app/data/shop_status_results.json >> /app/data/crawler.log 2>&1" > /etc/cron.d/crawler-cron \
+    && chmod 0644 /etc/cron.d/crawler-cron \
+    && crontab /etc/cron.d/crawler-cron
 
-# Set entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+# Create a simple web server to keep the app running
+RUN pip install --no-cache-dir flask gunicorn
+
+# Copy the web server file
+COPY app.py /app/app.py
+
+# Default command (will be overridden by processes in fly.toml)
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080", "--workers", "1"]

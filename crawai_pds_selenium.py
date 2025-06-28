@@ -167,8 +167,11 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-setuid-sandbox")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    # Use Chrome directly without webdriver-manager in Docker environment
+    driver = webdriver.Chrome(options=chrome_options)
     wait = WebDriverWait(driver, 20)
     
     try:
