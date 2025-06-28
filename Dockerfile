@@ -53,16 +53,9 @@ RUN echo "25 18 * * * cd /app && python /app/crawai_pds_selenium.py --shop-list-
     && chmod 0644 /etc/cron.d/crawler-cron \
     && crontab /etc/cron.d/crawler-cron
 
-# Install ChromeDriver
-RUN apt-get update && apt-get install -y unzip \
-    && CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d. -f1) \
-    && CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}") \
-    && wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" \
-    && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
-    && chmod +x /usr/local/bin/chromedriver \
-    && rm chromedriver_linux64.zip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Install ChromeDriver using webdriver-manager instead
+ENV PATH="/app/.wdm/drivers/chromedriver/linux64:${PATH}"
+RUN echo 'export PATH="/app/.wdm/drivers/chromedriver/linux64:${PATH}"' >> /etc/profile
 
 # Create entrypoint script
 RUN echo '#!/bin/bash\n\
@@ -77,7 +70,7 @@ sleep 1\n\
 /etc/init.d/cron start || service cron start || echo "Could not start cron"\n\
 \n\
 # Run crawler once at startup with explicit headless mode\n\
-python /app/crawai_pds_selenium.py --shop-list-json /app/shop_list.json --output-json /app/data/shop_status_results.json --headless &\n\
+export PYTHONUNBUFFERED=1\nexport DISPLAY=:99\npython /app/crawai_pds_selenium.py --shop-list-json /app/shop_list.json --output-json /app/data/shop_status_results.json --headless &\n\
 \n\
 # Start Flask web server\n\
 exec gunicorn --bind 0.0.0.0:$PORT app:app\n' > /app/entrypoint.sh \
