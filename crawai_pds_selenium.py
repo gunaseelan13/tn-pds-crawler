@@ -168,12 +168,40 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
-    # Use Chrome directly without webdriver-manager
+    # Create a unique user data directory
+    import tempfile
+    import uuid
+    import shutil
+    
+    # Create a unique temporary directory for Chrome user data
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_data_{uuid.uuid4().hex}")
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    # Add the user data directory option
+    chrome_options.add_argument(f"--user-data-dir={temp_dir}")
+    chrome_options.add_argument("--no-first-run")
+    chrome_options.add_argument("--no-default-browser-check")
+    chrome_options.add_argument("--password-store=basic")
+    
     try:
+        # Use Chrome directly without webdriver-manager
         driver = webdriver.Chrome(options=chrome_options)
+        print(f"Chrome initialized with user data directory: {temp_dir}")
     except Exception as e:
         print(f"Error initializing Chrome: {str(e)}")
-        # Try with a different approach
+        # Clean up the temp directory
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        # Try again with a different configuration
+        temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_data_retry_{uuid.uuid4().hex}")
+        os.makedirs(temp_dir, exist_ok=True)
+        chrome_options = Options()
+        if headless:
+            chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--window-size=1920,1080")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument(f"--user-data-dir={temp_dir}")
         chrome_options.add_argument("--remote-debugging-port=9222")
         driver = webdriver.Chrome(options=chrome_options)
     wait = WebDriverWait(driver, 20)
@@ -2251,12 +2279,40 @@ def main():
         options.add_argument("--headless")
     options.add_argument("--window-size=1920,1080")
     
-    # Use Chrome directly without webdriver-manager
+    # Create a unique user data directory
+    import tempfile
+    import uuid
+    import shutil
+    
+    # Create a unique temporary directory for Chrome user data
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_data_{uuid.uuid4().hex}")
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    # Add the user data directory option
+    options.add_argument(f"--user-data-dir={temp_dir}")
+    options.add_argument("--no-first-run")
+    options.add_argument("--no-default-browser-check")
+    options.add_argument("--password-store=basic")
+    
     try:
+        # Use Chrome directly without webdriver-manager
         driver = webdriver.Chrome(options=options)
+        print(f"Chrome initialized with user data directory: {temp_dir}")
     except Exception as e:
         print(f"Error initializing Chrome: {str(e)}")
-        # Try with a different approach
+        # Clean up the temp directory
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        # Try again with a different configuration
+        temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_data_retry_{uuid.uuid4().hex}")
+        os.makedirs(temp_dir, exist_ok=True)
+        options = Options()
+        if args.headless:
+            options.add_argument("--headless")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument(f"--user-data-dir={temp_dir}")
         options.add_argument("--remote-debugging-port=9222")
         driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 30)
