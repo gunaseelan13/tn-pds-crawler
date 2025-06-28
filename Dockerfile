@@ -29,10 +29,9 @@ RUN apt-get update && apt-get install -y \
 
 # Install Chrome and ChromeDriver
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update \
     && apt-get install -y google-chrome-stable chromium-driver \
-    && ln -s /usr/lib/chromium/chromedriver /usr/local/bin/chromedriver \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up working directory
@@ -48,7 +47,7 @@ COPY . .
 # Create data directory
 RUN mkdir -p data
 
-# Set environment variables for headless Chrome
+# Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV DISPLAY=:99
 
@@ -57,11 +56,14 @@ RUN echo "28 14 * * * cd /app && python /app/crawai_pds_selenium.py --shop-list-
     && chmod 0644 /etc/cron.d/crawler-cron \
     && crontab /etc/cron.d/crawler-cron
 
-# Create a simple web server to keep the app running
+# Install Flask and Gunicorn
 RUN pip install --no-cache-dir flask gunicorn
 
-# Copy the web server file
-COPY app.py /app/app.py
+# Make entrypoint script executable
+RUN chmod +x /app/render_entrypoint.sh
 
-# Default command (will be overridden by processes in fly.toml)
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080", "--workers", "1"]
+# Expose port (Render will override this with $PORT)
+EXPOSE 8080
+
+# Use the Render entrypoint script
+CMD ["/app/render_entrypoint.sh"]
