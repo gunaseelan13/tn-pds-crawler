@@ -38,6 +38,7 @@ logs/
 # Data files
 data/
 *.json
+!shop_list.json
 
 # Render specific
 .render/
