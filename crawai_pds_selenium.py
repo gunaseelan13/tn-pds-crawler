@@ -128,6 +128,20 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
     
     # Read the input JSON file
     try:
+        # Check if the file exists at the specified path
+        if not os.path.exists(shop_list_file):
+            # Try to find the file in the current directory
+            base_filename = os.path.basename(shop_list_file)
+            if os.path.exists(base_filename):
+                shop_list_file = base_filename
+                print(f"Using shop list file from current directory: {shop_list_file}")
+            else:
+                # Try to find it in the data directory
+                data_path = os.path.join('data', base_filename)
+                if os.path.exists(data_path):
+                    shop_list_file = data_path
+                    print(f"Using shop list file from data directory: {shop_list_file}")
+        
         with open(shop_list_file, 'r') as f:
             input_data = json.load(f)
             shop_list = input_data.get('shops', [])
@@ -2225,10 +2239,19 @@ def main():
     parser.add_argument('--output-json', type=str, help='JSON file to save results when using --shop-list-json')
     args = parser.parse_args()
     
+    # Create data directory if it doesn't exist
+    os.makedirs('data', exist_ok=True)
+    
     # Check if we're in shop list JSON mode
     if args.shop_list_json:
         if not args.output_json:
             args.output_json = 'shop_status_results.json'
+        
+        # Ensure output directory exists
+        output_dir = os.path.dirname(args.output_json)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
+            
         print(f"Starting shop status check from JSON list: {args.shop_list_json}")
         process_shop_list_json(args.shop_list_json, args.output_json, args.headless)
         return
