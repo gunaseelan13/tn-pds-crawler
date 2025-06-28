@@ -159,64 +159,58 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
         "results": {}
     }
     
-    # Initialize webdriver with server-friendly options
+    # Initialize webdriver for Linux server environment
     chrome_options = Options()
     
-    # Essential headless mode settings
+    # Basic settings
     if headless:
-        chrome_options.add_argument("--headless=new")  # Use the new headless mode
-    
-    # Disable all the problematic features
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--disable-browser-side-navigation")
-    chrome_options.add_argument("--disable-infobars")
-    chrome_options.add_argument("--disable-features=TranslateUI")
-    chrome_options.add_argument("--disable-notifications")
-    chrome_options.add_argument("--disable-popup-blocking")
-    
-    # Security and sandbox settings
+        chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--allow-running-insecure-content")
-    chrome_options.add_argument("--ignore-certificate-errors")
+    chrome_options.add_argument("--disable-dev-shm-usage")
     
-    # Performance settings
-    chrome_options.add_argument("--window-size=1920,1080")
-    chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("--blink-settings=imagesEnabled=true")
+    # CRITICAL: Force Chrome to use a temporary directory
+    import tempfile
+    import uuid
+    import shutil
     
-    # CRITICAL: Don't use user-data-dir at all
-    chrome_options.add_argument("--incognito")
-    chrome_options.add_argument("--profile-directory=Default")
+    # Create a completely unique temporary directory
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_temp_{uuid.uuid4().hex}")
+    os.makedirs(temp_dir, exist_ok=True)
     
-    # Add a random user agent
-    chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36")
+    # Set up a custom Chrome data directory that's guaranteed to be empty
+    chrome_options.binary_location = "/usr/bin/google-chrome-stable"
+    chrome_options.add_argument(f"--data-dir={temp_dir}")
+    chrome_options.add_argument("--disable-application-cache")
     
-    # Set Chrome preferences programmatically
-    chrome_prefs = {
-        "profile.default_content_settings.popups": 0,
-        "download.prompt_for_download": False,
-        "download.directory_upgrade": True,
-        "safebrowsing.enabled": False,
-        "plugins.always_open_pdf_externally": True,
-        "credentials_enable_service": False,
-        "password_manager_enabled": False
-    }
-    chrome_options.add_experimental_option("prefs", chrome_prefs)
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
-    chrome_options.add_experimental_option("useAutomationExtension", False)
+    # Create a service object with specific log path
+    from selenium.webdriver.chrome.service import Service
+    log_path = os.path.join(temp_dir, "chromedriver.log")
+    service = Service(log_path=log_path)
     
     try:
-        # Use Chrome directly without webdriver-manager
-        driver = webdriver.Chrome(options=chrome_options)
-        print("Chrome initialized successfully with server-optimized settings")
+        # Try with the most basic configuration possible
+        print(f"Initializing Chrome with temp directory: {temp_dir}")
+        driver = webdriver.Chrome(service=service, options=chrome_options)
     except Exception as e:
-        print(f"Error initializing Chrome: {str(e)}")
-        # Try with a different approach
-        chrome_options.add_argument("--remote-debugging-port=9222")
-        chrome_options.add_argument("--disable-web-security")
-        driver = webdriver.Chrome(options=chrome_options)
+        print(f"First Chrome initialization attempt failed: {str(e)}")
+        # Clean up and try again with a different approach
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        
+        # Try with direct ChromeDriver path
+        chrome_options = Options()
+        if headless:
+            chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        
+        try:
+            driver = webdriver.Chrome(options=chrome_options)
+        except Exception as e2:
+            print(f"Second Chrome initialization attempt failed: {str(e2)}")
+            # Last resort - try with explicit driver path
+            driver_path = "/usr/bin/chromedriver"
+            service = Service(executable_path=driver_path)
+            driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 20)
     
     try:
@@ -2285,65 +2279,59 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     os.makedirs(args.screenshots_dir, exist_ok=True)
     
-    # Initialize WebDriver with server-friendly options
+    # Initialize WebDriver for Linux server environment
     print("Initializing WebDriver...")
     options = Options()
     
-    # Essential headless mode settings
+    # Basic settings
     if args.headless:
-        options.add_argument("--headless=new")  # Use the new headless mode
-    
-    # Disable all the problematic features
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--disable-browser-side-navigation")
-    options.add_argument("--disable-infobars")
-    options.add_argument("--disable-features=TranslateUI")
-    options.add_argument("--disable-notifications")
-    options.add_argument("--disable-popup-blocking")
-    
-    # Security and sandbox settings
+        options.add_argument("--headless")
     options.add_argument("--no-sandbox")
-    options.add_argument("--allow-running-insecure-content")
-    options.add_argument("--ignore-certificate-errors")
+    options.add_argument("--disable-dev-shm-usage")
     
-    # Performance settings
-    options.add_argument("--window-size=1920,1080")
-    options.add_argument("--start-maximized")
-    options.add_argument("--blink-settings=imagesEnabled=true")
+    # CRITICAL: Force Chrome to use a temporary directory
+    import tempfile
+    import uuid
+    import shutil
     
-    # CRITICAL: Don't use user-data-dir at all
-    options.add_argument("--incognito")
-    options.add_argument("--profile-directory=Default")
+    # Create a completely unique temporary directory
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_temp_{uuid.uuid4().hex}")
+    os.makedirs(temp_dir, exist_ok=True)
     
-    # Add a random user agent
-    options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36")
+    # Set up a custom Chrome data directory that's guaranteed to be empty
+    options.binary_location = "/usr/bin/google-chrome-stable"
+    options.add_argument(f"--data-dir={temp_dir}")
+    options.add_argument("--disable-application-cache")
     
-    # Set Chrome preferences programmatically
-    chrome_prefs = {
-        "profile.default_content_settings.popups": 0,
-        "download.prompt_for_download": False,
-        "download.directory_upgrade": True,
-        "safebrowsing.enabled": False,
-        "plugins.always_open_pdf_externally": True,
-        "credentials_enable_service": False,
-        "password_manager_enabled": False
-    }
-    options.add_experimental_option("prefs", chrome_prefs)
-    options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
-    options.add_experimental_option("useAutomationExtension", False)
+    # Create a service object with specific log path
+    from selenium.webdriver.chrome.service import Service
+    log_path = os.path.join(temp_dir, "chromedriver.log")
+    service = Service(log_path=log_path)
     
     try:
-        # Use Chrome directly without webdriver-manager
-        driver = webdriver.Chrome(options=options)
-        print("Chrome initialized successfully with server-optimized settings")
+        # Try with the most basic configuration possible
+        print(f"Initializing Chrome with temp directory: {temp_dir}")
+        driver = webdriver.Chrome(service=service, options=options)
     except Exception as e:
-        print(f"Error initializing Chrome: {str(e)}")
-        # Try with a different approach
-        options.add_argument("--remote-debugging-port=9222")
-        options.add_argument("--disable-web-security")
-        driver = webdriver.Chrome(options=options)
+        print(f"First Chrome initialization attempt failed: {str(e)}")
+        # Clean up and try again with a different approach
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        
+        # Try with direct ChromeDriver path
+        options = Options()
+        if args.headless:
+            options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        
+        try:
+            driver = webdriver.Chrome(options=options)
+        except Exception as e2:
+            print(f"Second Chrome initialization attempt failed: {str(e2)}")
+            # Last resort - try with explicit driver path
+            driver_path = "/usr/bin/chromedriver"
+            service = Service(executable_path=driver_path)
+            driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 30)
     
     try:
