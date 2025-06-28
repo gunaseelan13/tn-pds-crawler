@@ -1,0 +1,19 @@
+app = "tn-pds-crawler"
+primary_region = "sin"  # Singapore region, change as needed
+
+[build]
+  dockerfile = "Dockerfile"
+
+[mounts]
+  source = "tn_pds_data"
+  destination = "/app/data"
+
+[processes]
+  app = "/entrypoint.sh"
+
+[env]
+  PYTHONUNBUFFERED = "1"
+
+[metrics]
+  port = 9091
+  path = "/metrics"

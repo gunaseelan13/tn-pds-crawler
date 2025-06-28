@@ -1,0 +1,23 @@
+{
+  "shops": [
+    {
+      "id": "21EB028P1",
+      "district": "Sivagangai",
+      "taluk": "Karaikudi (Tk)"
+    },
+    {
+      "id": "21EB028PY",
+      "district": "Sivagangai",
+      "taluk": "Karaikudi (Tk)"
+    },
+    {
+      "id": "21EB029PY",
+      "district": "Sivagangai",
+      "taluk": "Karaikudi (Tk)"
+    }
+  ],
+  "options": {
+    "include_details": true,
+    "headless": true
+  }
+}

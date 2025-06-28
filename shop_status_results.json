@@ -1,0 +1,153 @@
+{
+  "timestamp": "2025-06-28T17:58:46",
+  "total_shops_checked": 3,
+  "shops_found": 3,
+  "shops_not_found": 0,
+  "online_shops": 1,
+  "offline_shops": 2,
+  "results": {
+    "21EB028P1": {
+      "found": true,
+      "district": "Sivagangai",
+      "taluk": "Karaikudi (Tk)",
+      "name": "Indira Nagar",
+      "status": "Offline",
+      "last_transaction": {
+        "bill_number": "87880625000512",
+        "transaction_number": "0625000512",
+        "date_time": "26-Jun-2025 06:04 PM",
+        "amount": "75.0",
+        "details": {
+          "items": [
+            {
+              "sno": "1",
+              "product_name": "NPHH FRK BR",
+              "quantity": "15.000",
+              "unit_price": "0.00",
+              "total": "0.00",
+              "unit": "kg"
+            },
+            {
+              "sno": "2",
+              "product_name": "NPHH FRK RR",
+              "quantity": "5.000",
+              "unit_price": "0.00",
+              "total": "0.00",
+              "unit": "kg"
+            },
+            {
+              "sno": "3",
+              "product_name": "PalmOil",
+              "quantity": "1.000",
+              "unit_price": "25.00",
+              "total": "25.00",
+              "unit": "pkt"
+            },
+            {
+              "sno": "4",
+              "product_name": "Sugar",
+              "quantity": "2.000",
+              "unit_price": "25.00",
+              "total": "50.00",
+              "unit": "kg"
+            }
+          ]
+        }
+      },
+      "shop": "21EB028P1"
+    },
+    "21EB028PY": {
+      "found": true,
+      "district": "Sivagangai",
+      "taluk": "Karaikudi (Tk)",
+      "name": "Kallal 1",
+      "status": "Online",
+      "last_transaction": {
+        "bill_number": "87870625001385",
+        "transaction_number": "0625001385",
+        "date_time": "28-Jun-2025 05:05 PM",
+        "amount": "105.0",
+        "details": {
+          "items": [
+            {
+              "sno": "1",
+              "product_name": "NPHH FRK BR",
+              "quantity": "20.000",
+              "unit_price": "0.00",
+              "total": "0.00",
+              "unit": "kg"
+            },
+            {
+              "sno": "2",
+              "product_name": "PalmOil",
+              "quantity": "1.000",
+              "unit_price": "25.00",
+              "total": "25.00",
+              "unit": "pkt"
+            },
+            {
+              "sno": "3",
+              "product_name": "Sugar",
+              "quantity": "2.000",
+              "unit_price": "25.00",
+              "total": "50.00",
+              "unit": "kg"
+            },
+            {
+              "sno": "4",
+              "product_name": "ToorDhall",
+              "quantity": "1.000",
+              "unit_price": "30.00",
+              "total": "30.00",
+              "unit": "kg"
+            }
+          ]
+        }
+      },
+      "shop": "21EB028PY"
+    },
+    "21EB029PY": {
+      "found": true,
+      "district": "Sivagangai",
+      "taluk": "Karaikudi (Tk)",
+      "name": "Kallal 2",
+      "status": "Offline",
+      "last_transaction": {
+        "bill_number": "87890625001182",
+        "transaction_number": "0625001182",
+        "date_time": "26-Jun-2025 03:04 PM",
+        "amount": "105.0",
+        "details": {
+          "items": [
+            {
+              "sno": "1",
+              "product_name": "PalmOil",
+              "quantity": "1.000",
+              "unit_price": "25.00",
+              "total": "25.00",
+              "unit": "pkt"
+            },
+            {
+              "sno": "2",
+              "product_name": "Sugar",
+              "quantity": "2.000",
+              "unit_price": "25.00",
+              "total": "50.00",
+              "unit": "kg"
+            },
+            {
+              "sno": "3",
+              "product_name": "ToorDhall",
+              "quantity": "1.000",
+              "unit_price": "30.00",
+              "total": "30.00",
+              "unit": "kg"
+            }
+          ]
+        }
+      },
+      "shop": "21EB029PY"
+    }
+  },
+  "execution_time_seconds": 140.62
+}

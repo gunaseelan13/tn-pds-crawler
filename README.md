@@ -9,6 +9,7 @@ A Selenium-based web crawler for extracting data from the Tamil Nadu Public Dist
 - Support for targeted search by district, taluk, and shop ID
 - Detailed bill item extraction from transaction dialogs
 - Debug screenshots and HTML snapshots
+- Deployable as a cron job on Fly.io
 
 ## Requirements
 
@@ -75,6 +76,46 @@ The crawler generates a JSON file with detailed information about each shop, inc
 - Shop details
 - Last transaction details
 - Bill items from the transaction
+
+## Deployment on Fly.io
+
+This project can be deployed on Fly.io as a scheduled cron job that runs automatically.
+
+### Prerequisites
+
+1. Install the Fly CLI: https://fly.io/docs/hands-on/install-flyctl/
+2. Sign up and log in to Fly.io: `flyctl auth login`
+
+### Deployment Steps
+
+1. Configure your shop list in `shop_list.json`
+2. Adjust the cron schedule in `entrypoint.sh` if needed (default is daily at 6:00 AM)
+3. Deploy to Fly.io:
+   ```bash
+   fly launch
+   ```
+   - When prompted, select an app name or use the default
+   - Choose a region close to you
+   - Create a volume when prompted
+
+4. To manually deploy after making changes:
+   ```bash
+   fly deploy
+   ```
+
+5. To view logs:
+   ```bash
+   fly logs
+   ```
+
+### Accessing Results
+
+The crawler results are stored in the Fly.io volume. To access them:
+
+```bash
+fly ssh console
+cat /app/data/shop_status_results.json
+```
 
 ## License
 
