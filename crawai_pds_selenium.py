@@ -1478,7 +1478,7 @@ def navigate_to_pds_reports_and_get_districts(driver, wait):
     
     return None
 
-def navigate_to_district_and_get_taluks(driver, wait, district_name):
+def navigate_to_district_and_get_taluks(driver, wait, district_name, screenshots_dir='data'):
     """Navigate to a specific district and extract taluk data"""
     try:
         # Find district table
@@ -2362,7 +2362,7 @@ def main():
                 if args.shop:
                     shop_found = False
                     shops_to_crawl = []
-                    for shop in all_shops:
+                    for shop in shops:
                         if shop['SHOP CODE'] == args.shop:
                             shops_to_crawl = [shop]
                             shop_found = True
