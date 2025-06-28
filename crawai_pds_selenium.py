@@ -184,8 +184,21 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-setuid-sandbox")
     
-    # Use Chrome directly without webdriver-manager in Docker environment
-    driver = webdriver.Chrome(options=chrome_options)
+    # Create a unique user data directory to avoid conflicts
+    import tempfile
+    import uuid
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_user_data_{uuid.uuid4()}")
+    os.makedirs(temp_dir, exist_ok=True)
+    chrome_options.add_argument(f"--user-data-dir={temp_dir}")
+    
+    try:
+        # Use Chrome directly without webdriver-manager in Docker environment
+        driver = webdriver.Chrome(options=chrome_options)
+    except Exception as e:
+        print(f"Error initializing Chrome: {str(e)}")
+        # Try with a different approach if the first one fails
+        chrome_options.add_argument("--remote-debugging-port=9222")
+        driver = webdriver.Chrome(options=chrome_options)
     wait = WebDriverWait(driver, 20)
     
     try:
@@ -2269,8 +2282,24 @@ def main():
     if args.headless:
         options.add_argument("--headless")
     options.add_argument("--window-size=1920,1080")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # Create a unique user data directory to avoid conflicts
+    import tempfile
+    import uuid
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_user_data_{uuid.uuid4()}")
+    os.makedirs(temp_dir, exist_ok=True)
+    options.add_argument(f"--user-data-dir={temp_dir}")
+    
+    try:
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    except Exception as e:
+        print(f"Error initializing Chrome: {str(e)}")
+        # Try with a different approach if the first one fails
+        options.add_argument("--remote-debugging-port=9222")
+        driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 30)
     
     try:
