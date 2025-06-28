@@ -128,20 +128,6 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
     
     # Read the input JSON file
     try:
-        # Check if the file exists at the specified path
-        if not os.path.exists(shop_list_file):
-            # Try to find the file in the current directory
-            base_filename = os.path.basename(shop_list_file)
-            if os.path.exists(base_filename):
-                shop_list_file = base_filename
-                print(f"Using shop list file from current directory: {shop_list_file}")
-            else:
-                # Try to find it in the data directory
-                data_path = os.path.join('data', base_filename)
-                if os.path.exists(data_path):
-                    shop_list_file = data_path
-                    print(f"Using shop list file from data directory: {shop_list_file}")
-        
         with open(shop_list_file, 'r') as f:
             input_data = json.load(f)
             shop_list = input_data.get('shops', [])
@@ -181,24 +167,8 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--disable-setuid-sandbox")
     
-    # Create a unique user data directory to avoid conflicts
-    import tempfile
-    import uuid
-    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_user_data_{uuid.uuid4()}")
-    os.makedirs(temp_dir, exist_ok=True)
-    chrome_options.add_argument(f"--user-data-dir={temp_dir}")
-    
-    try:
-        # Use Chrome directly without webdriver-manager in Docker environment
-        driver = webdriver.Chrome(options=chrome_options)
-    except Exception as e:
-        print(f"Error initializing Chrome: {str(e)}")
-        # Try with a different approach if the first one fails
-        chrome_options.add_argument("--remote-debugging-port=9222")
-        driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     wait = WebDriverWait(driver, 20)
     
     try:
@@ -1505,7 +1475,7 @@ def navigate_to_pds_reports_and_get_districts(driver, wait):
     
     return None
 
-def navigate_to_district_and_get_taluks(driver, wait, district_name, screenshots_dir='data'):
+def navigate_to_district_and_get_taluks(driver, wait, district_name):
     """Navigate to a specific district and extract taluk data"""
     try:
         # Find district table
@@ -2252,19 +2222,10 @@ def main():
     parser.add_argument('--output-json', type=str, help='JSON file to save results when using --shop-list-json')
     args = parser.parse_args()
     
-    # Create data directory if it doesn't exist
-    os.makedirs('data', exist_ok=True)
-    
     # Check if we're in shop list JSON mode
     if args.shop_list_json:
         if not args.output_json:
             args.output_json = 'shop_status_results.json'
-        
-        # Ensure output directory exists
-        output_dir = os.path.dirname(args.output_json)
-        if output_dir and not os.path.exists(output_dir):
-            os.makedirs(output_dir, exist_ok=True)
-            
         print(f"Starting shop status check from JSON list: {args.shop_list_json}")
         process_shop_list_json(args.shop_list_json, args.output_json, args.headless)
         return
@@ -2282,24 +2243,8 @@ def main():
     if args.headless:
         options.add_argument("--headless")
     options.add_argument("--window-size=1920,1080")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
     
-    # Create a unique user data directory to avoid conflicts
-    import tempfile
-    import uuid
-    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_user_data_{uuid.uuid4()}")
-    os.makedirs(temp_dir, exist_ok=True)
-    options.add_argument(f"--user-data-dir={temp_dir}")
-    
-    try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    except Exception as e:
-        print(f"Error initializing Chrome: {str(e)}")
-        # Try with a different approach if the first one fails
-        options.add_argument("--remote-debugging-port=9222")
-        driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     wait = WebDriverWait(driver, 30)
     
     try:
@@ -2414,7 +2359,7 @@ def main():
                 if args.shop:
                     shop_found = False
                     shops_to_crawl = []
-                    for shop in shops:
+                    for shop in all_shops:
                         if shop['SHOP CODE'] == args.shop:
                             shops_to_crawl = [shop]
                             shop_found = True
