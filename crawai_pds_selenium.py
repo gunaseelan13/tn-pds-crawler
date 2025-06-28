@@ -168,7 +168,14 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    # Use Chrome directly without webdriver-manager
+    try:
+        driver = webdriver.Chrome(options=chrome_options)
+    except Exception as e:
+        print(f"Error initializing Chrome: {str(e)}")
+        # Try with a different approach
+        chrome_options.add_argument("--remote-debugging-port=9222")
+        driver = webdriver.Chrome(options=chrome_options)
     wait = WebDriverWait(driver, 20)
     
     try:
@@ -2244,7 +2251,14 @@ def main():
         options.add_argument("--headless")
     options.add_argument("--window-size=1920,1080")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # Use Chrome directly without webdriver-manager
+    try:
+        driver = webdriver.Chrome(options=options)
+    except Exception as e:
+        print(f"Error initializing Chrome: {str(e)}")
+        # Try with a different approach
+        options.add_argument("--remote-debugging-port=9222")
+        driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 30)
     
     try:
