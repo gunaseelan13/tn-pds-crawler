@@ -159,7 +159,7 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
         "results": {}
     }
     
-    # Initialize webdriver for Linux server environment with Chromium
+    # Initialize webdriver for Linux server environment
     chrome_options = Options()
     
     # Basic settings
@@ -167,23 +167,20 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
         chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--disable-extensions")
     
-    # Use Chromium instead of Chrome
-    # Common Chromium paths on Linux
-    chromium_paths = [
-        "/usr/bin/chromium",
-        "/usr/bin/chromium-browser",
-        "/snap/bin/chromium",
-        "/usr/lib/chromium/chromium"
-    ]
+    # CRITICAL: Force Chrome to use a temporary directory
+    import tempfile
+    import uuid
+    import shutil
     
-    for path in chromium_paths:
-        if os.path.exists(path):
-            chrome_options.binary_location = path
-            print(f"Using Chromium at: {path}")
-            break
+    # Create a completely unique temporary directory
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_temp_{uuid.uuid4().hex}")
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    # Set up a custom Chrome data directory that's guaranteed to be empty
+    chrome_options.binary_location = "/usr/bin/google-chrome-stable"
+    chrome_options.add_argument(f"--data-dir={temp_dir}")
+    chrome_options.add_argument("--disable-application-cache")
     
     # Create a service object with specific log path
     from selenium.webdriver.chrome.service import Service
@@ -2297,7 +2294,7 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     os.makedirs(args.screenshots_dir, exist_ok=True)
     
-    # Initialize WebDriver for Linux server environment with Chromium
+    # Initialize WebDriver for Linux server environment
     print("Initializing WebDriver...")
     options = Options()
     
@@ -2306,23 +2303,20 @@ def main():
         options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-extensions")
     
-    # Use Chromium instead of Chrome
-    # Common Chromium paths on Linux
-    chromium_paths = [
-        "/usr/bin/chromium",
-        "/usr/bin/chromium-browser",
-        "/snap/bin/chromium",
-        "/usr/lib/chromium/chromium"
-    ]
+    # CRITICAL: Force Chrome to use a temporary directory
+    import tempfile
+    import uuid
+    import shutil
     
-    for path in chromium_paths:
-        if os.path.exists(path):
-            options.binary_location = path
-            print(f"Using Chromium at: {path}")
-            break
+    # Create a completely unique temporary directory
+    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_temp_{uuid.uuid4().hex}")
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    # Set up a custom Chrome data directory that's guaranteed to be empty
+    options.binary_location = "/usr/bin/google-chrome-stable"
+    options.add_argument(f"--data-dir={temp_dir}")
+    options.add_argument("--disable-application-cache")
     
     # Create a service object with specific log path
     from selenium.webdriver.chrome.service import Service
