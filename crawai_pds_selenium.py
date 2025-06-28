@@ -207,14 +207,13 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
             driver = webdriver.Chrome(options=chrome_options)
         except Exception as e2:
             print(f"Second Chrome initialization attempt failed: {str(e2)}")
-            # Last resort - try with WebDriver Manager again with different options
+            # Last resort - try with WebDriver Manager again
             from webdriver_manager.chrome import ChromeDriverManager
-            from webdriver_manager.core.utils import ChromeType
             
             print("Attempting to install ChromeDriver with WebDriver Manager...")
             try:
-                # Try with explicit ChromeType
-                service = Service(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+                # Try with basic ChromeDriverManager
+                service = Service(ChromeDriverManager().install())
                 driver = webdriver.Chrome(service=service, options=chrome_options)
             except Exception as e3:
                 print(f"Third Chrome initialization attempt failed: {str(e3)}")
@@ -2344,14 +2343,13 @@ def main():
             driver = webdriver.Chrome(options=options)
         except Exception as e2:
             print(f"Second Chrome initialization attempt failed: {str(e2)}")
-            # Last resort - try with WebDriver Manager again with different options
+            # Last resort - try with WebDriver Manager again
             from webdriver_manager.chrome import ChromeDriverManager
-            from webdriver_manager.core.utils import ChromeType
             
             print("Attempting to install ChromeDriver with WebDriver Manager...")
             try:
-                # Try with explicit ChromeType
-                service = Service(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+                # Try with basic ChromeDriverManager
+                service = Service(ChromeDriverManager().install())
                 driver = webdriver.Chrome(service=service, options=options)
             except Exception as e3:
                 print(f"Third Chrome initialization attempt failed: {str(e3)}")
