@@ -1,0 +1,44 @@
+name: TN PDS Crawler
+
+on:
+  schedule:
+    # Run daily at 8:52 PM IST (15:22 UTC)
+    - cron: '22 15 * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run crawler
+      run: |
+        mkdir -p data
+        python crawai_pds_selenium.py --shop-list-json shop_list.json --output-json data/shop_status_results_$(date +%Y%m%d).json --headless
+        
+    - name: Commit and push results
+      run: |
+        git config --global user.name 'GitHub Actions Bot'
+        git config --global user.email 'actions@github.com'
+        git add data/shop_status_results_*.json
+        git commit -m "Add crawler results for $(date +%Y-%m-%d)" || echo "No changes to commit"
+        git push
