@@ -4,7 +4,11 @@ since it's a complex Ajax-based JSF website that requires proper session handlin
 """
 import json
 import os
+import sys
 import time
+import uuid
+import shutil
+import tempfile
 import argparse
 from pathlib import Path
 from datetime import datetime
