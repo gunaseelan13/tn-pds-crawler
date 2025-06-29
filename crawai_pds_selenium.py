@@ -1430,6 +1430,109 @@ def navigate_to_main_page(driver, wait):
         print(f"Error navigating to main page: {str(e)}")
         return False
 
+def navigate_to_pds_reports(driver, wait):
+    """Navigate to the PDS Reports section with multiple detection methods"""
+    max_retries = 3
+    retry_count = 0
+    
+    while retry_count < max_retries:
+        try:
+            # Navigate to main page first
+            navigate_to_main_page(driver, wait)
+            
+            # Take screenshot for debugging
+            screenshot_path = f"main_page_before_pds_reports_{retry_count}.png"
+            try:
+                driver.save_screenshot(screenshot_path)
+                print(f"Saved screenshot to {screenshot_path}")
+            except Exception as e:
+                print(f"Failed to save screenshot: {str(e)}")
+            
+            # Look for PDS Reports link with multiple methods
+            print("Looking for PDS Reports link...")
+            
+            # Method 1: By link text (original method)
+            try:
+                print("Trying to find PDS Reports by link text...")
+                pds_reports_link = driver.find_element(By.LINK_TEXT, "PDS Reports")
+                pds_reports_link.click()
+                print("Found and clicked PDS Reports link by link text")
+                wait.until(EC.presence_of_element_located((By.ID, "form1:shopNo")))
+                return True
+            except Exception as e:
+                print(f"Could not find PDS Reports by link text: {str(e)}")
+            
+            # Method 2: By partial link text
+            try:
+                print("Trying to find PDS Reports by partial link text...")
+                pds_reports_link = driver.find_element(By.PARTIAL_LINK_TEXT, "PDS")
+                pds_reports_link.click()
+                print("Found and clicked PDS Reports link by partial link text")
+                wait.until(EC.presence_of_element_located((By.ID, "form1:shopNo")))
+                return True
+            except Exception as e:
+                print(f"Could not find PDS Reports by partial link text: {str(e)}")
+            
+            # Method 3: By XPath - looking for any link containing PDS
+            try:
+                print("Trying to find PDS Reports by XPath...")
+                pds_reports_link = driver.find_element(By.XPATH, "//a[contains(text(), 'PDS') or contains(text(), 'Reports')]")
+                pds_reports_link.click()
+                print("Found and clicked PDS Reports link by XPath")
+                wait.until(EC.presence_of_element_located((By.ID, "form1:shopNo")))
+                return True
+            except Exception as e:
+                print(f"Could not find PDS Reports by XPath: {str(e)}")
+            
+            # Method 4: Try to find by looking at all links
+            try:
+                print("Trying to find PDS Reports by scanning all links...")
+                all_links = driver.find_elements(By.TAG_NAME, "a")
+                print(f"Found {len(all_links)} links on page")
+                
+                for link in all_links:
+                    try:
+                        link_text = link.text.strip().lower()
+                        print(f"Link text: '{link_text}'")
+                        if 'pds' in link_text or 'report' in link_text:
+                            print(f"Found potential match: '{link_text}'")
+                            link.click()
+                            try:
+                                wait.until(EC.presence_of_element_located((By.ID, "form1:shopNo")))
+                                print(f"Successfully navigated to PDS Reports via '{link_text}'")
+                                return True
+                            except:
+                                print(f"Clicked '{link_text}' but didn't reach PDS Reports page")
+                                navigate_to_main_page(driver, wait)
+                    except Exception as link_err:
+                        print(f"Error processing link: {str(link_err)}")
+                        continue
+            except Exception as e:
+                print(f"Could not find PDS Reports by scanning all links: {str(e)}")
+                
+            retry_count += 1
+            if retry_count < max_retries:
+                print(f"Retry attempt {retry_count + 1}/{max_retries}")
+            else:
+                print(f"Failed to navigate to PDS Reports after {max_retries} attempts")
+                # Save page source for debugging
+                try:
+                    with open("failed_navigation_page_source.html", "w", encoding="utf-8") as f:
+                        f.write(driver.page_source)
+                    print("Saved page source to failed_navigation_page_source.html")
+                except Exception as e:
+                    print(f"Failed to save page source: {str(e)}")
+                return False
+        except Exception as e:
+            print(f"Error in navigate_to_pds_reports: {str(e)}")
+            retry_count += 1
+            if retry_count < max_retries:
+                print(f"Retry attempt {retry_count + 1}/{max_retries}")
+            else:
+                print(f"Failed to navigate to PDS Reports after {max_retries} attempts")
+                return False
+    return False
+
 def navigate_to_pds_reports_and_get_districts(driver, wait):
     """Navigate to PDS Reports page and extract district data"""
     max_retries = 3
@@ -1441,52 +1544,29 @@ def navigate_to_pds_reports_and_get_districts(driver, wait):
                 navigate_to_main_page(driver, wait)
                 time.sleep(2)
             
-            # Find and click PDS Reports link
-            print("Looking for PDS Reports link...")
-            pds_reports_clicked = False
-            
-            links = driver.find_elements(By.TAG_NAME, 'a')
-            for link in links:
-                if 'PDS Reports' in link.text:
-                    print("Found PDS Reports link")
-                    try:
-                        link.click()
-                        pds_reports_clicked = True
-                        break
-                    except:
-                        try:
-                            driver.execute_script("arguments[0].click();", link)
-                            pds_reports_clicked = True
-                            break
-                        except Exception as e:
-                            print(f"Error clicking PDS Reports link: {str(e)}")
-            
-            if not pds_reports_clicked:
-                print("Could not find or click PDS Reports link")
+            # Navigate to PDS Reports page
+            if navigate_to_pds_reports(driver, wait):
+                print("Successfully navigated to PDS Reports page")
+            else:
+                print("Failed to navigate to PDS Reports page")
                 if attempt == max_retries - 1:
                     return None
                 else:
-                    time.sleep(2)
                     continue
-            
+                    
             # Wait for page to load
             time.sleep(2)
             wait.until(lambda d: d.execute_script('return document.readyState') == 'complete')
             print("PDS Reports page loaded")
             
-            # Page loaded successfully
-            
             # Look for district table
             print("Looking for district table...")
             try:
-                
                 # Wait for the district table to be present
                 district_table = wait.until(EC.presence_of_element_located(
                     (By.ID, 'StateLevelDetailsForm:StateLevelDetailsTable')
                 ))
                 print("Found district table")
-                
-                # Found district table successfully
                 
                 # Extract district data
                 rows = district_table.find_elements(By.CSS_SELECTOR, 'tbody tr')
