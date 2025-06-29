@@ -23,10 +23,13 @@ jobs:
       with:
         python-version: '3.9'
         
-    - name: Install Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+    - name: Setup Chrome and ChromeDriver
+      uses: browser-actions/setup-chrome@latest
+      with:
+        chrome-version: stable
+        
+    - name: Setup ChromeDriver
+      uses: nanasess/setup-chromedriver@master
         
     - name: Install dependencies
       run: |

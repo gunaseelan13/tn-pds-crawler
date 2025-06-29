@@ -159,16 +159,59 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
         "results": {}
     }
     
-    # Initialize webdriver
+    # Initialize Chrome with headless option if specified
     chrome_options = Options()
     if headless:
         chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--window-size=1920,1080")
-    chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1920,1080")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    # Create a unique temporary directory for Chrome data
+    temp_dir = tempfile.mkdtemp(prefix="chrome_temp_")
+    print(f"Initializing Chrome with temp directory: {temp_dir}")
+    
+    # Initialize Chrome WebDriver with multiple fallback options
+    driver = None
+    
+    # Try different methods to initialize Chrome
+    methods = [
+        # Method 1: Direct initialization
+        lambda: webdriver.Chrome(options=chrome_options),
+        
+        # Method 2: With service object
+        lambda: webdriver.Chrome(
+            service=webdriver.chrome.service.Service(),
+            options=chrome_options
+        ),
+        
+        # Method 3: With explicit chromedriver path for GitHub Actions
+        lambda: webdriver.Chrome(
+            service=webdriver.chrome.service.Service(
+                executable_path="/usr/local/bin/chromedriver"
+            ),
+            options=chrome_options
+        )
+    ]
+    
+    # Try each method until one works
+    last_exception = None
+    for i, method in enumerate(methods):
+        try:
+            print(f"Trying Chrome initialization method {i+1}/{len(methods)}")
+            driver = method()
+            print(f"Chrome initialization method {i+1} succeeded")
+            break
+        except Exception as e:
+            print(f"Chrome initialization method {i+1} failed: {str(e)}")
+            last_exception = e
+            continue
+    
+    # If all methods failed, raise the last exception
+    if driver is None:
+        raise Exception(f"All Chrome initialization methods failed. Last error: {str(last_exception)}")
+    
     wait = WebDriverWait(driver, 20)
     
     try:
@@ -404,7 +447,7 @@ def navigate_to_district_table(driver, wait):
                     ))
                     print("Found district table")
                     
-                    # Take screenshot for debugging
+                    # Take screenshot of district table
                     driver.save_screenshot("district_table.png")
                     print("District table screenshot saved")
                     
@@ -875,7 +918,8 @@ def extract_shop_details(driver, wait):
                         row_data = {}
                         for j, cell in enumerate(cells):
                             if j < len(headers):
-                                row_data[headers[j]] = cell.text.strip()
+                                header = headers[j] or f"Column{j}"
+                                row_data[header] = cell.text.strip()
                             else:
                                 row_data[f"Column{j}"] = cell.text.strip()
                         data.append(row_data)
@@ -1431,6 +1475,7 @@ def navigate_to_pds_reports_and_get_districts(driver, wait):
             # Look for district table
             print("Looking for district table...")
             try:
+                
                 # Wait for the district table to be present
                 district_table = wait.until(EC.presence_of_element_located(
                     (By.ID, 'StateLevelDetailsForm:StateLevelDetailsTable')
