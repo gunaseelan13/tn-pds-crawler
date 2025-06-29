@@ -29,6 +29,13 @@ env/
 .idea/
 .vscode/
 *.swp
+
+# Screenshots and large data files
+screenshots/
+*.png
+*_page_source.html
+*_source.html
+pds_data/**/screenshots/
 *.swo
 
 # Logs

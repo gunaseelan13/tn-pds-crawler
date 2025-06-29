@@ -1,0 +1,534 @@
+{
+    "district": "Sivagangai",
+    "taluk": "Karaikudi (Tk)",
+    "shop": "21EB029PY",
+    "details": {
+        "status": "Offline",
+        "Table3": [
+            {
+                "Product wise quantity sold for the current month upto yesterday": "ASU\nBRA\nFBROA\nnull\nPRR\nPHBR\nPSU\nRRY\nSGR\n0\n2,000\n4,000\n6,000\n158\n158\n0\n0\n0\n0\n0\n0\n0\n0\n3,430\n3,430\n0\n0\n90\n90\n4,979\n4,979\n1,300\n1,300\n0\n0\n18\n18\n0\n0\n4\n4\n725\n725\n0\n0\n5,022\n5,022\n1\n1\n2\n2\n2\n2\n0\n0\n0\n0\n0\n0\n0\n0\n980.5\n980.5\n725\n725\n388\n388\nCommodities\nASU - AAY Sugar\nBRG - Boiled Rice\nBRY - Boiled Rice AAY\nBRA - Boiled Rice ANP\nBRO - Boiled Rice OAP\nFAB - Fortified AAY BR\nFBROA - Fortified BR OAP\nKSE - Kerosene\n- NPHH FRK BR\n- NPHH FRK RR\nPBR - P Boiled Rice\n- P FRK BR\nPRR - P Raw Rice\nPTD - P ToorDhall\nPOL - PalmOil\nPHBR - PHH Boiled Rice\nFBR - PHH FRK Boiled Rice\nPPO - Police PalmOil\nPSU - Police Sugar\nPWH - Police Wheat\nRRG - Raw Rice\nRRY - Raw Rice AAY\nRRA - Raw Rice ANP\nRRO - Raw Rice OAP\nSGR - Sugar\nTDL - ToorDhall\nWHT - Wheat",
+                "Column1": "",
+                "Column2": "",
+                "Commodities": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "",
+                "Column1": ""
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "ASU - AAY Sugar"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "BRG - Boiled Rice"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "BRY - Boiled Rice AAY"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "BRA - Boiled Rice ANP"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "BRO - Boiled Rice OAP"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "FAB - Fortified AAY BR"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "FBROA - Fortified BR OAP"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "KSE - Kerosene"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "- NPHH FRK BR"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "- NPHH FRK RR"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "PBR - P Boiled Rice"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "- P FRK BR"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "PRR - P Raw Rice"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "PTD - P ToorDhall"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "POL - PalmOil"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "PHBR - PHH Boiled Rice"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "FBR - PHH FRK Boiled Rice"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "PPO - Police PalmOil"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "PSU - Police Sugar"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "PWH - Police Wheat"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "RRG - Raw Rice"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "RRY - Raw Rice AAY"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "RRA - Raw Rice ANP"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "RRO - Raw Rice OAP"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "SGR - Sugar"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "TDL - ToorDhall"
+            },
+            {
+                "Product wise quantity sold for the current month upto yesterday": "WHT - Wheat"
+            }
+        ],
+        "Table4": [
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            },
+            {
+                "Column0": "",
+                "Column1": ""
+            }
+        ],
+        "Table5": [
+            {
+                "Commodities": "ASU - AAY Sugar"
+            },
+            {
+                "Commodities": "BRG - Boiled Rice"
+            },
+            {
+                "Commodities": "BRY - Boiled Rice AAY"
+            },
+            {
+                "Commodities": "BRA - Boiled Rice ANP"
+            },
+            {
+                "Commodities": "BRO - Boiled Rice OAP"
+            },
+            {
+                "Commodities": "FAB - Fortified AAY BR"
+            },
+            {
+                "Commodities": "FBROA - Fortified BR OAP"
+            },
+            {
+                "Commodities": "KSE - Kerosene"
+            },
+            {
+                "Commodities": "- NPHH FRK BR"
+            },
+            {
+                "Commodities": "- NPHH FRK RR"
+            },
+            {
+                "Commodities": "PBR - P Boiled Rice"
+            },
+            {
+                "Commodities": "- P FRK BR"
+            },
+            {
+                "Commodities": "PRR - P Raw Rice"
+            },
+            {
+                "Commodities": "PTD - P ToorDhall"
+            },
+            {
+                "Commodities": "POL - PalmOil"
+            },
+            {
+                "Commodities": "PHBR - PHH Boiled Rice"
+            },
+            {
+                "Commodities": "FBR - PHH FRK Boiled Rice"
+            },
+            {
+                "Commodities": "PPO - Police PalmOil"
+            },
+            {
+                "Commodities": "PSU - Police Sugar"
+            },
+            {
+                "Commodities": "PWH - Police Wheat"
+            },
+            {
+                "Commodities": "RRG - Raw Rice"
+            },
+            {
+                "Commodities": "RRY - Raw Rice AAY"
+            },
+            {
+                "Commodities": "RRA - Raw Rice ANP"
+            },
+            {
+                "Commodities": "RRO - Raw Rice OAP"
+            },
+            {
+                "Commodities": "SGR - Sugar"
+            },
+            {
+                "Commodities": "TDL - ToorDhall"
+            },
+            {
+                "Commodities": "WHT - Wheat"
+            }
+        ],
+        "Table6": [
+            {
+                "S.No.": "1",
+                "Bill Number": "87890625001182",
+                "Transaction Number": "0625001182",
+                "Date & Time": "26-Jun-2025 03:04 PM",
+                "Card Number": "333403155120",
+                "Members": "4",
+                "Amount": "105.0",
+                "Details": "View"
+            },
+            {
+                "S.No.": "2",
+                "Bill Number": "87890625001181",
+                "Transaction Number": "0625001181",
+                "Date & Time": "26-Jun-2025 02:52 PM",
+                "Card Number": "333015708475",
+                "Members": "3",
+                "Amount": "12.5",
+                "Details": "View"
+            },
+            {
+                "S.No.": "3",
+                "Bill Number": "87890625001180",
+                "Transaction Number": "0625001180",
+                "Date & Time": "26-Jun-2025 02:51 PM",
+                "Card Number": "333015708475",
+                "Members": "3",
+                "Amount": "80.0",
+                "Details": "View"
+            },
+            {
+                "S.No.": "4",
+                "Bill Number": "87890625001179",
+                "Transaction Number": "0625001179",
+                "Date & Time": "25-Jun-2025 05:43 PM",
+                "Card Number": "333911658571",
+                "Members": "5",
+                "Amount": "105.0",
+                "Details": "View"
+            },
+            {
+                "S.No.": "5",
+                "Bill Number": "87890625001178",
+                "Transaction Number": "0625001178",
+                "Date & Time": "25-Jun-2025 05:42 PM",
+                "Card Number": "333655873082",
+                "Members": "4",
+                "Amount": "105.0",
+                "Details": "View"
+            },
+            {
+                "S.No.": "6",
+                "Bill Number": "87890625001177",
+                "Transaction Number": "0625001177",
+                "Date & Time": "25-Jun-2025 05:17 PM",
+                "Card Number": "333683394905",
+                "Members": "4",
+                "Amount": "105.0",
+                "Details": "View"
+            },
+            {
+                "S.No.": "7",
+                "Bill Number": "87890625001176",
+                "Transaction Number": "0625001176",
+                "Date & Time": "25-Jun-2025 05:08 PM",
+                "Card Number": "333275313048",
+                "Members": "2",
+                "Amount": "80.0",
+                "Details": "View"
+            },
+            {
+                "S.No.": "8",
+                "Bill Number": "87890625001175",
+                "Transaction Number": "0625001175",
+                "Date & Time": "25-Jun-2025 05:07 PM",
+                "Card Number": "333139684685",
+                "Members": "2",
+                "Amount": "80.0",
+                "Details": "View"
+            },
+            {
+                "S.No.": "9",
+                "Bill Number": "87890625001174",
+                "Transaction Number": "0625001174",
+                "Date & Time": "25-Jun-2025 05:05 PM",
+                "Card Number": "333006750814",
+                "Members": "3",
+                "Amount": "92.5",
+                "Details": "View"
+            },
+            {
+                "S.No.": "10",
+                "Bill Number": "87890625001173",
+                "Transaction Number": "0625001173",
+                "Date & Time": "25-Jun-2025 05:00 PM",
+                "Card Number": "333786644498",
+                "Members": "2",
+                "Amount": "25.0",
+                "Details": "View"
+            }
+        ],
+        "Table7": [
+            {
+                "Column0": "",
+                "Column1": "",
+                "Column2": "",
+                "Column3": "",
+                "Column4": "",
+                "Column5": ""
+            },
+            {
+                "Column0": "",
+                "Column1": "",
+                "Column2": "",
+                "Column3": "",
+                "Column4": "",
+                "Column5": ""
+            },
+            {
+                "Column0": "",
+                "Column1": "",
+                "Column2": "",
+                "Column3": "",
+                "Column4": "",
+                "Column5": ""
+            },
+            {
+                "Column0": "",
+                "Column1": "",
+                "Column2": "",
+                "Column3": "",
+                "Column4": "",
+                "Column5": ""
+            }
+        ]
+    }
+}

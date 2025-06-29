@@ -159,73 +159,16 @@ def process_shop_list_json(shop_list_file, output_json, headless=True):
         "results": {}
     }
     
-    # Initialize webdriver for Linux server environment
+    # Initialize webdriver
     chrome_options = Options()
-    
-    # Basic settings
     if headless:
         chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
-    # CRITICAL: Force Chrome to use a temporary directory
-    import tempfile
-    import uuid
-    import shutil
-    
-    # Create a completely unique temporary directory
-    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_temp_{uuid.uuid4().hex}")
-    os.makedirs(temp_dir, exist_ok=True)
-    
-    # Set up a custom Chrome data directory that's guaranteed to be empty
-    chrome_options.binary_location = "/usr/bin/google-chrome-stable"
-    chrome_options.add_argument(f"--data-dir={temp_dir}")
-    chrome_options.add_argument("--disable-application-cache")
-    
-    # Create a service object with specific log path
-    from selenium.webdriver.chrome.service import Service
-    log_path = os.path.join(temp_dir, "chromedriver.log")
-    service = Service(log_path=log_path)
-    
-    try:
-        # Try with the most basic configuration possible
-        print(f"Initializing Chrome with temp directory: {temp_dir}")
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-    except Exception as e:
-        print(f"First Chrome initialization attempt failed: {str(e)}")
-        # Clean up and try again with a different approach
-        shutil.rmtree(temp_dir, ignore_errors=True)
-        
-        # Try with direct ChromeDriver path
-        chrome_options = Options()
-        if headless:
-            chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        
-        try:
-            driver = webdriver.Chrome(options=chrome_options)
-        except Exception as e2:
-            print(f"Second Chrome initialization attempt failed: {str(e2)}")
-            # Last resort - try with WebDriver Manager again
-            from webdriver_manager.chrome import ChromeDriverManager
-            
-            print("Attempting to install ChromeDriver with WebDriver Manager...")
-            try:
-                # Try with basic ChromeDriverManager
-                service = Service(ChromeDriverManager().install())
-                driver = webdriver.Chrome(service=service, options=chrome_options)
-            except Exception as e3:
-                print(f"Third Chrome initialization attempt failed: {str(e3)}")
-                # Final attempt - try with system ChromeDriver if available
-                for possible_path in ["/usr/bin/chromedriver", "/usr/local/bin/chromedriver"]:
-                    if os.path.exists(possible_path):
-                        print(f"Found ChromeDriver at {possible_path}")
-                        service = Service(executable_path=possible_path)
-                        driver = webdriver.Chrome(service=service, options=chrome_options)
-                        break
-                else:
-                    raise Exception("Could not find ChromeDriver in any location")
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     wait = WebDriverWait(driver, 20)
     
     try:
@@ -2294,74 +2237,14 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     os.makedirs(args.screenshots_dir, exist_ok=True)
     
-    # Initialize WebDriver for Linux server environment
+    # Initialize WebDriver
     print("Initializing WebDriver...")
     options = Options()
-    
-    # Basic settings
     if args.headless:
         options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1920,1080")
     
-    # CRITICAL: Force Chrome to use a temporary directory
-    import tempfile
-    import uuid
-    import shutil
-    
-    # Create a completely unique temporary directory
-    temp_dir = os.path.join(tempfile.gettempdir(), f"chrome_temp_{uuid.uuid4().hex}")
-    os.makedirs(temp_dir, exist_ok=True)
-    
-    # Set up a custom Chrome data directory that's guaranteed to be empty
-    options.binary_location = "/usr/bin/google-chrome-stable"
-    options.add_argument(f"--data-dir={temp_dir}")
-    options.add_argument("--disable-application-cache")
-    
-    # Create a service object with specific log path
-    from selenium.webdriver.chrome.service import Service
-    log_path = os.path.join(temp_dir, "chromedriver.log")
-    service = Service(log_path=log_path)
-    
-    try:
-        # Try with the most basic configuration possible
-        print(f"Initializing Chrome with temp directory: {temp_dir}")
-        driver = webdriver.Chrome(service=service, options=options)
-    except Exception as e:
-        print(f"First Chrome initialization attempt failed: {str(e)}")
-        # Clean up and try again with a different approach
-        shutil.rmtree(temp_dir, ignore_errors=True)
-        
-        # Try with direct ChromeDriver path
-        options = Options()
-        if args.headless:
-            options.add_argument("--headless")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        
-        try:
-            driver = webdriver.Chrome(options=options)
-        except Exception as e2:
-            print(f"Second Chrome initialization attempt failed: {str(e2)}")
-            # Last resort - try with WebDriver Manager again
-            from webdriver_manager.chrome import ChromeDriverManager
-            
-            print("Attempting to install ChromeDriver with WebDriver Manager...")
-            try:
-                # Try with basic ChromeDriverManager
-                service = Service(ChromeDriverManager().install())
-                driver = webdriver.Chrome(service=service, options=options)
-            except Exception as e3:
-                print(f"Third Chrome initialization attempt failed: {str(e3)}")
-                # Final attempt - try with system ChromeDriver if available
-                for possible_path in ["/usr/bin/chromedriver", "/usr/local/bin/chromedriver"]:
-                    if os.path.exists(possible_path):
-                        print(f"Found ChromeDriver at {possible_path}")
-                        service = Service(executable_path=possible_path)
-                        driver = webdriver.Chrome(service=service, options=options)
-                        break
-                else:
-                    raise Exception("Could not find ChromeDriver in any location")
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     wait = WebDriverWait(driver, 30)
     
     try:

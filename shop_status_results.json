@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-06-28T17:58:46",
+  "timestamp": "2025-06-29T14:09:13",
   "total_shops_checked": 3,
   "shops_found": 3,
   "shops_not_found": 0,
-  "online_shops": 1,
-  "offline_shops": 2,
+  "online_shops": 0,
+  "offline_shops": 3,
   "results": {
     "21EB028P1": {
       "found": true,
@@ -61,7 +61,7 @@
       "district": "Sivagangai",
       "taluk": "Karaikudi (Tk)",
       "name": "Kallal 1",
-      "status": "Online",
+      "status": "Offline",
       "last_transaction": {
         "bill_number": "87870625001385",
         "transaction_number": "0625001385",
@@ -149,5 +149,5 @@
       "shop": "21EB029PY"
     }
   },
-  "execution_time_seconds": 140.62
+  "execution_time_seconds": 135.71
 }
