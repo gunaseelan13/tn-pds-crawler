@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-12-21T15:28:41",
+  "total_shops_checked": 3,
+  "shops_found": 0,
+  "shops_not_found": 3,
+  "online_shops": 0,
+  "offline_shops": 0,
+  "results": {
+    "21EB028P1": {
+      "found": false,
+      "error": "Shop ID not found in the system"
+    },
+    "21EB028PY": {
+      "found": false,
+      "error": "Shop ID not found in the system"
+    },
+    "21EB029PY": {
+      "found": false,
+      "error": "Shop ID not found in the system"
+    }
+  },
+  "execution_time_seconds": 2375.93
+}
